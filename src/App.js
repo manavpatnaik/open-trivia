@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useGlobalContext } from "./context";
 import Loading from "./Loading";
 import Modal from "./Modal";

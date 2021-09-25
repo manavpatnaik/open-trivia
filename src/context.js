@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 const API_ENDPOINT = "https://opentdb.com/api.php";
 const AppContext = React.createContext();
