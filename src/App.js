@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { useGlobalContext } from "./context";
+import Loading from "./Loading";
+import Modal from "./Modal";
+import SetupForm from "./SetupForm";
 
-function App() {
+const App = () => {
+  const {
+    loading,
+    questions,
+    index,
+    nextQuestion,
+    correct,
+    checkAnswer,
+    waiting,
+  } = useGlobalContext();
+
+  if (waiting) return <SetupForm />;
+  if (loading) return <Loading />;
+
+  const { question, correct_answer, incorrect_answers } = questions[index];
+  let answers = [...incorrect_answers, correct_answer];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
+    <main className="quiz-container">
+      <Modal />
+      <section className="quiz">
+        <p className="correct-answers">
+          Correct answers: {correct}/{index}
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+        <article className="question-container">
+          <h2
+            dangerouslySetInnerHTML={{ __html: `${index + 1}. ${question}` }}
+          />
+          <div className="answers-container">
+            {answers.map((answer, index) => (
+              <button
+                key={index}
+                onClick={() => checkAnswer(answer === correct_answer)}
+                dangerouslySetInnerHTML={{ __html: answer }}
+              />
+            ))}
+          </div>
+        </article>
+        <button className="next-btn" onClick={nextQuestion}>
+          Next question
+        </button>
+      </section>
+    </main>
   );
-}
+};
 
 export default App;
